@@ -15,8 +15,19 @@
 //!
 //! This version of arrayvec requires Rust 1.51 or later.
 //!
+#![feature(min_const_generics)]
+
 #![doc(html_root_url="https://docs.rs/arrayvec/0.7/")]
 #![cfg_attr(not(feature="std"), no_std)]
+
+#![cfg_attr(feature = "with-bench", feature(test))]
+
+#![cfg_attr(all(feature = "mesalock_sgx", not(target_env = "sgx")), no_std)]
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+
+#[cfg(all(feature = "mesalock_sgx", not(target_env = "sgx")))]
+#[macro_use]
+extern crate sgx_tstd as std;
 
 #[cfg(feature="serde")]
 extern crate serde;
